@@ -1,4 +1,5 @@
 const Message = require("../models/messageModel");
+const { sendNewMessageEmail } = require("../utils/email");
 
 exports.getMessage = async (req, res) => {
   try {
@@ -35,6 +36,9 @@ exports.deleteMessage = async (req, res) => {
 exports.addMessage = async (req, res) => {
   try {
     const msg = await Message.create(req.body);
+
+    await sendNewMessageEmail(msg);
+
     res.status(201).json({
       success: true,
       message: "Message created successfully",
