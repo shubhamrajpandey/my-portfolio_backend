@@ -9,10 +9,16 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendNewMessageEmail = async (message) => {
-  await transporter.sendMail({
-    from: process.env.GMAIL_USER,
-    to: "your-email@gmail.com", 
-    subject: `New message from ${message.name}`,
-    text: message.message,
-  });
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.GMAIL_USER,
+      to: "shubhamrajpandey875@gmail.com",
+      subject: `New message from ${message.name}`,
+      text: message.message,
+    });
+    console.log("Email sent:", info.response);
+  } catch (err) {
+    console.error("Error sending email:", err);
+  }
 };
+
